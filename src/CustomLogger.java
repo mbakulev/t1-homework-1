@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.Scanner;
 
 public class CustomLogger {
     private String fileName;
@@ -12,7 +13,6 @@ public class CustomLogger {
             fileWriter = new FileWriter(fileName, true);
             fileReader = new FileReader(fileName);
             bufferedReader = new BufferedReader(fileReader);
-//            fileWriter.close();
         } catch (IOException e) {
             System.out.println("An error occurred.");
             e.printStackTrace();
@@ -36,12 +36,36 @@ public class CustomLogger {
         }
     }
 
-    public void clearFile() throws IOException {
-        fileWriter = new FileWriter(fileName);
-//        fileWriter.close();
+    public void clearFile() {
+        try {
+            fileWriter = new FileWriter(fileName);
+        } catch (IOException e) {
+            System.out.println("An error occurred while writing the file.");
+        }
     }
 
-    public void close() throws IOException {
-        fileWriter.close();
+    public void close() {
+        try {
+            bufferedReader.close();
+            fileWriter.close();
+            fileReader.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred while closing the file.");
+        }
+    }
+
+    public void start() {
+        Scanner scanner = new Scanner(System.in);
+        String operation = getOperation(scanner);
+
+        switch (operation) {
+            case "READ": this.read(); break;
+            case "CLEAR": this.clearFile(); break;
+        }
+    }
+
+    private String getOperation(Scanner scanner) {
+        System.out.println("Введите " + "READ" + " для чтения логов, " + "CLEAR" + " для удаления логов");
+        return scanner.nextLine();
     }
 }
