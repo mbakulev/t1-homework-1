@@ -14,9 +14,16 @@ public class Calculator {
         this.customLogger = customLogger;
     }
 
+    private boolean isOperationAccepted(String operation) {
+        return (operation.equals(ADD) || operation.equals(SUBTRACT) || operation.equals(MULTIPLY) || operation.equals(DIVIDE) || operation.equals(POW));
+    }
+
     public void start() {
         Scanner scanner = new Scanner(System.in);
         String operation = getOperation(scanner);
+        while (!isOperationAccepted(operation)) {
+            operation = getOperation(scanner);
+        }
         double a = getNumber(scanner, "первое");
         double b = getNumber(scanner, "второе");
         scanner.close();
