@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Calculator {
@@ -6,6 +7,12 @@ public class Calculator {
     private static final String MULTIPLY = "*";
     private static final String DIVIDE = "/";
     private static final String POW = "^";
+
+    private final CustomLogger customLogger;
+
+    public Calculator(CustomLogger customLogger) {
+        this.customLogger = customLogger;
+    }
 
     public void start() {
         Scanner scanner = new Scanner(System.in);
@@ -17,7 +24,8 @@ public class Calculator {
         try {
             double result = calculate(operation, a, b);
             printResult(result);
-        } catch (IllegalArgumentException e) {
+            customLogger.write(operation, a, b, result);
+        } catch (IllegalArgumentException | IOException e) {
             System.err.println("Ошибка: " + e.getMessage());
         }
     }
